@@ -18,6 +18,12 @@ app.add_middleware(
 class URLInput(BaseModel):
     url: HttpUrl  # Validates the input is a proper URL
 
+
+@app.get("/")
+def read_root():
+    return {"message": "Welcome to the Blog Summarizer API!"}
+
+
 @app.post("/summarize/")
 def summarize_blog(data: URLInput):
     try:
