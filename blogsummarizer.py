@@ -4,6 +4,11 @@ from fastapi.middleware.cors import CORSMiddleware  # Import CORSMiddleware
 import requests
 from newspaper import Article
 import logging
+import nltk
+
+
+nltk.download('punkt')
+
 
 app = FastAPI()
 
