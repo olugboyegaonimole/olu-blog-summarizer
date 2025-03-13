@@ -1,12 +1,22 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, HttpUrl
+from fastapi.middleware.cors import CORSMiddleware  # Import CORSMiddleware
 import requests
 from newspaper import Article
 
 app = FastAPI()
 
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allow all origins (you can restrict it to specific URLs later)
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all HTTP methods (GET, POST, etc.)
+    allow_headers=["*"],  # Allow all headers
+)
+
 class URLInput(BaseModel):
-    url: HttpUrl  # Ensures valid URL input
+    url: HttpUrl  # Validates the input is a proper URL
 
 @app.post("/summarize/")
 def summarize_blog(data: URLInput):
@@ -15,6 +25,7 @@ def summarize_blog(data: URLInput):
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36"
         }
         
+        # Fetch HTML manually
         response = requests.get(str(data.url), headers=headers, timeout=10)
 
         if response.status_code != 200:
@@ -22,7 +33,7 @@ def summarize_blog(data: URLInput):
 
         # Process article content
         article = Article(str(data.url))
-        article.set_html(response.text)
+        article.download()  # Manually fetch content
         article.parse()
         article.nlp()
 
