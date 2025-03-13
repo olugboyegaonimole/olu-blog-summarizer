@@ -25,7 +25,8 @@ class URLInput(BaseModel):
     url: HttpUrl  # Validates the input is a proper URL
 
 
-@app.get("/")
+@app.get("/", include_in_schema=False)
+@app.head("/", include_in_schema=False)
 def read_root():
     return {"message": "Welcome to the Blog Summarizer API!"}
 
