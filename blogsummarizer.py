@@ -4,6 +4,11 @@ from fastapi.middleware.cors import CORSMiddleware  # Import CORSMiddleware
 import requests
 from newspaper import Article
 import logging
+import nltk
+
+
+nltk.download('punkt')
+
 
 app = FastAPI()
 
@@ -20,7 +25,8 @@ class URLInput(BaseModel):
     url: HttpUrl  # Validates the input is a proper URL
 
 
-@app.get("/")
+@app.get("/", include_in_schema=False)
+@app.head("/", include_in_schema=False)
 def read_root():
     return {"message": "Welcome to the Blog Summarizer API!"}
 
@@ -31,7 +37,8 @@ logger = logging.getLogger(__name__)
 @app.post("/summarize/")
 def summarize_blog(data: URLInput):
     try:
-        headers = {"User-Agent": "Mozilla/5.0"}
+        headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36"}
+
         response = requests.get(str(data.url), headers=headers, timeout=10)
 
         if response.status_code != 200:
