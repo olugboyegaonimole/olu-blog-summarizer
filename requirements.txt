@@ -9,3 +9,8 @@ cssselect==1.2.0
 feedparser==6.0.10
 tldextract==3.4.0
 nltk==3.8.1
+
+libxml2-dev 
+libxslt-dev  
+python-dev  
+python-setuptools
