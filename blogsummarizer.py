@@ -6,9 +6,7 @@ from newspaper import Article
 import logging
 import nltk
 
-
 nltk.download('punkt')
-
 
 app = FastAPI()
 
@@ -24,13 +22,10 @@ app.add_middleware(
 class URLInput(BaseModel):
     url: HttpUrl  # Validates the input is a proper URL
 
-
 @app.get("/", include_in_schema=False)
 @app.head("/", include_in_schema=False)
 def read_root():
     return {"message": "Welcome to the Blog Summarizer API!"}
-
-
 
 logger = logging.getLogger(__name__)
 
@@ -60,3 +55,6 @@ def summarize_blog(data: URLInput):
         logger.exception("Unexpected error")
         raise HTTPException(status_code=500, detail=f"Internal Server Error: {str(e)}")
 
+@app.get("/summarize/")
+def summarize_get(url: str):
+    return summarize_blog(URLInput(url=url))
