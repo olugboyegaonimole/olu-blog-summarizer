@@ -3,7 +3,7 @@ pydantic==1.10.7
 requests==2.28.1
 newspaper3k==0.2.8
 uvicorn==0.18.2
-lxml<5.0.0
+lxml==4.9.3
 beautifulsoup4==4.11.2
 cssselect==1.2.0
 feedparser==6.0.10
