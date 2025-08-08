@@ -1,9 +1,12 @@
     services:
   - type: web
     name: olu-blog-summarizer  # replace this with your actual service name
-    env: python
+    env: docker
     plan: free
-    buildCommand: ./render-build.sh
-    startCommand: uvicorn blogsummarizer:app --host 0.0.0.0 --port 10000
-    pythonVersion: 3.13.4
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    envVars:
+      - key: PORT
+        value: 10000
+
 
