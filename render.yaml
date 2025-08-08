@@ -1,7 +1,9 @@
-services:
+    services:
   - type: web
     name: olu-blog-summarizer  # replace this with your actual service name
     env: python
-    runtime: python-3.11.6
-    buildCommand: pip install -r requirements.txt
+    plan: free
+    buildCommand: ./render-build.sh
     startCommand: uvicorn blogsummarizer:app --host 0.0.0.0 --port 10000
+    pythonVersion: 3.13.4
+
